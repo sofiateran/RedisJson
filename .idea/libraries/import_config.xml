@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="import_config">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/import_config.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="file://$PROJECT_DIR$/src/main/java" />
+    </SOURCES>
+  </library>
+</component>
