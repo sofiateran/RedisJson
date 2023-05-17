@@ -1,27 +1,39 @@
 package com.lambda.configuration;
 
 import org.xml.sax.SAXException;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.JedisPoolConfig;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
+import java.util.List;
 
 public class LambdaConfigImport {
 
 	public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException {
+		// Llamada a Redis para obtener los valores
+		RedisClient redisClient = new RedisClient("192.168.65.10", 6379);
+		List<String> nombre = redisClient.smembers("24:networktypes");
+		System.out.println("Nombre: " + nombre);
+		redisClient.close();
 
-		if (args.length != 3) {
-			System.out.println( "Usage:");
-			System.out.println( "ConfigImport <companyId> <path> <loadtype>");
-			System.out.println( "where");
-			System.out.println( "		<companyId> is the company Id, as an integer");
-			System.out.println( "		<path> is the path where xml's are stored, such as '/home/configuration'");
-			System.out.println( "		<loadtype> can take one of two values: 'initial' or 'update'");
-			System.out.println( "			'initial' updates the modified configuration with changes effective on unixtime = 0,");
-			System.out.println( "					  and deletes previous records of the updated configuration");
-			System.out.println( "			'update' updates the modified configuration with changes effective on current time,");
-			System.out.println( "					 previous records of the configuration are kept with end time = current time");
-			return;
-		}
+		DeleteConfig deleteConfig = new DeleteConfig("192.168.65.10", 6379);
+
+
+//		if (args.length != 3) {
+//			System.out.println( "Usage:");
+//			System.out.println( "ConfigImport <companyId> <path> <loadtype>");
+//			System.out.println( "where");
+//			System.out.println( "		<companyId> is the company Id, as an integer");
+//			System.out.println( "		<path> is the path where xml's are stored, such as '/home/configuration'");
+//			System.out.println( "		<loadtype> can take one of two values: 'initial' or 'update'");
+//			System.out.println( "			'initial' updates the modified configuration with changes effective on unixtime = 0,");
+//			System.out.println( "					  and deletes previous records of the updated configuration");
+//			System.out.println( "			'update' updates the modified configuration with changes effective on current time,");
+//			System.out.println( "					 previous records of the configuration are kept with end time = current time");
+//			return;
+//		}
 
 		String companyid = args[0];
 		String path = args[1];
@@ -39,6 +51,7 @@ public class LambdaConfigImport {
 		int n = oparts.length;
 
 		long startTime = System.nanoTime();
+		deleteConfig.delete(companyid, "networktypes", path + "/networktypes", unixTime );
 
 		//Directorios raiz base
 		wk.walk(companyid, "networktypes", path + "/networktypes", unixTime, n);
@@ -66,5 +79,7 @@ public class LambdaConfigImport {
         System.out.println( "Total bytes: " + wk.totallen);
         System.out.println(" Time: " + (System.nanoTime() - startTime) / 1000000 + "ms");
         System.out.println( "***************************************");
+
+
     }
 }

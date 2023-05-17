@@ -18,40 +18,7 @@ import javax.net.ssl.X509TrustManager;
 public class PostConfig {
 
 	public PostConfig() {
-		/*
-		// these settings bypass the certificate check, need to be changed for production!
-		// Create a trust manager that does not validate certificate chains
-		TrustManager[] trustAllCerts = new TrustManager[]{
-			new X509TrustManager() {
-		        public java.security.cert.X509Certificate[] getAcceptedIssuers() {
-		        	return null;
-		        }
-		        public void checkClientTrusted(
-		            java.security.cert.X509Certificate[] certs, String authType) {
-		        }
-		        public void checkServerTrusted(
-		            java.security.cert.X509Certificate[] certs, String authType) {
-		        }
-		    }
-		};
 
-		// Install the all-trusting trust manager
-		try {
-		    SSLContext sc = SSLContext.getInstance("SSL");
-		    sc.init(null, trustAllCerts, new java.security.SecureRandom());
-		    HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
-		} catch (GeneralSecurityException e) {
-			System.out.println(e.getMessage());
-		}
-
-		HostnameVerifier allHostsValid = new HostnameVerifier() {
-			public boolean verify(String hostname, SSLSession session) {
-				return true;
-			}
-		};
-
-		// set the  allTrusting verifier
-		HttpsURLConnection.setDefaultHostnameVerifier(allHostsValid); */
 	}
 
 	public void downloadConfig(String companyid, String processtype, String cfgname, String unixtime, String json) {
