@@ -5,8 +5,6 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.nio.file.Files;
 import java.util.stream.Collectors;
-
-
 import org.json.JSONObject;
 import org.json.XML;
 import org.w3c.dom.Document;
@@ -19,12 +17,14 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import static java.lang.Long.valueOf;
+
 public class FileWalker {
 	private static final int PRETTY_PRINT_INDENT_FACTOR = 0;
 
 	public int totallen = 0;
 	private PostConfig pc = null;
-
+	private DeleteConfig dc = null;
 	private RedisJson rj = null;
 
 	public FileWalker() {
@@ -87,7 +87,7 @@ public class FileWalker {
 
 	            totallen = totallen + redisJson.length();
 
-	            pc.downloadConfig(companyid, processtype, cfgname, String.valueOf(unixtime), redisJson);
+	            dc.delete(companyid, processtype, cfgname, valueOf(unixtime) );
 	        }
 	    }
 	}
